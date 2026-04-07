@@ -71,7 +71,7 @@ CSS_NEW = """.qr-placeholder {
   position:absolute;
   top:1.5mm;
   right:1.5mm;
-  width:22.5mm;
+  width:19mm;
   z-index:20;
 }
 .qr-placeholder img {
