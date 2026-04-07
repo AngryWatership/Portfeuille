@@ -104,25 +104,10 @@ body {
   top:1.5mm;
   right:1.5mm;
   width:22.5mm;
-  height:22.5mm;
-  background:var(--ph);
-  border:1.5px dashed #bbb;
-  border-radius:1.5mm;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:1mm;
   z-index:20;
 }
-.qr-placeholder span {
-  font-family:'DM Mono',monospace;
-  font-size:5pt;
-  color:#aaa;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  text-align:center;
-  line-height:1.6;
+.qr-placeholder img {
+  width:100%;height:auto;display:block;
 }
 
 /* ═══ CONTENT ═══════════════════════════════════════ */
@@ -309,7 +294,7 @@ hr { display:none; }
   </div>
 
   <!-- QR PLACEHOLDER -->
-  <div class="qr-placeholder"><span>QR<br>Code</span></div>
+  <div class="qr-placeholder"><img src="../qr/qr-6-fr.png" alt="QR"></div>
 
   <div class="content">
 
