@@ -70,7 +70,7 @@ CSS_OLD = """.qr-placeholder {
 CSS_NEW = """.qr-placeholder {
   position:absolute;
   top:1.5mm;
-  right:1.5mm;
+  right:10mm;
   width:19mm;
   z-index:20;
 }
