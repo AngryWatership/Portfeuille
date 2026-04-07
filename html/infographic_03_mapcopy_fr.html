@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MapCopy — Fiche Projet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --acc:   #3D5A8A;
+  --acc2:  #7a9cc4;
+  --accbg: #eef2f8;
+  --ink:   #111;
+  --inkm:  #2e2e2e;
+  --inkl:  #777;
+  --rule:  #ccc;
+  --bg:    #f8f8f6;
+  --ph:    #e0e0de;
+
+  --fs-label: 10pt;      /* section labels: The Problem, The Engine… */
+  --fs-text:  13pt;      /* ALL paragraph / description text         */
+  --fs-pill:  12pt;      /* status pills                             */
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#999;
+  background-image: url('../flow.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  justify-content:center;
+  padding:28px;
+  font-family:'DM Sans', sans-serif;
+}
+
+/* ═══ A4 ════════════════════════════════════════════ */
+.page {
+  width:210mm;
+  min-height:297mm;
+  background:var(--bg);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 8px 48px rgba(0,0,0,.25);
+}
+.page::before {
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:25px;
+  background:var(--acc);
+  z-index:2;
+}
+
+/* ═══ TABS ══════════════════════════════════════════ */
+.tabs-placeholder {
+  width:100%;
+  height:13mm;
+  background:#e8e8e6;
+  display:flex;
+  align-items:stretch;
+  gap:3mm;
+  padding:0 14mm;
+  flex-shrink:0;
+  border-bottom:2px solid #bbb;
+  padding-bottom:1.5mm;
+}
+.tab-ph {
+  width:32mm;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1mm;
+  border-radius:0 0 1.5mm 1.5mm;
+}
+.tab-domain   { background:#5a7299; }
+.tab-maturity { background:#6fa76e; }
+.tab-audience { background:#6e4177; }
+.tab-wow      { background:#9a8040; }
+.tab-ph .tab-key {
+  font-family:'DM Mono',monospace;
+  font-size:6pt;color:rgba(255,255,255,.72);
+  letter-spacing:.18em;text-transform:uppercase;
+  font-weight:300;
+  text-align:center;
+}
+.tab-ph .tab-val {
+  font-family:'DM Mono',monospace;
+  font-size:7.5pt;color:#fff;
+  letter-spacing:.08em;text-transform:uppercase;
+  font-weight:500;
+  text-align:center;
+}
+
+
+/* ═══ QR PLACEHOLDER ════════════════════════════════ */
+.qr-placeholder {
+  position:absolute;
+  top:1.5mm;
+  right:1.5mm;
+  width:22.5mm;
+  height:22.5mm;
+  background:var(--ph);
+  border:1.5px dashed #bbb;
+  border-radius:1.5mm;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1mm;
+  z-index:20;
+}
+.qr-placeholder span {
+  font-family:'DM Mono',monospace;
+  font-size:5pt;
+  color:#aaa;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-align:center;
+  line-height:1.6;
+}
+
+/* ═══ CONTENT ═══════════════════════════════════════ */
+.content {
+  flex:1;
+  padding:7mm 13mm 9mm 14mm;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+/* ═══ HEADER ════════════════════════════════════════ */
+.header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:5mm;
+  margin-bottom:7mm;
+  padding-bottom:6mm;
+  border-bottom:2px solid var(--ink);
+}
+.header-left { flex:1; }
+
+.counter {
+  display:flex;align-items:center;gap:3px;
+  margin-bottom:3mm;
+}
+.dot {
+  width:8px;height:8px;
+  border-radius:50%;background:var(--acc);flex-shrink:0;
+}
+
+.proj-cat {
+  font-family:'DM Mono',monospace;
+  font-size:12pt;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:2.5mm;
+}
+.proj-name {
+  font-family:'Playfair Display',serif;
+  font-size:52pt;font-weight:900;
+  color:var(--ink);line-height:.92;
+  margin-bottom:5mm;letter-spacing:-.02em;
+}
+.tagline {
+  font-size:14pt;font-weight:400;
+  color:var(--inkm);line-height:1.55;
+  max-width:115mm;
+}
+.tagline strong { color:var(--ink);font-weight:500; }
+
+/* ═══ CIRCLE PLACEHOLDER ════════════════════════════ */
+.circle-placeholder {
+  width:65mm;flex-shrink:0;
+}
+.circle-placeholder img {
+  width:100%;height:auto;display:block;
+}
+
+/* ═══ SECTION LABEL ═════════════════════════════════ */
+.sec-label {
+  font-family:'DM Mono',monospace;
+  font-size:16pt;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--acc);
+  margin-bottom:3.5mm;
+  display:flex;
+  align-items:center;
+  gap:3mm;
+}
+.sec-label::after {
+  content:'';
+  flex:1;height:2px;
+  background:var(--rule);
+}
+
+/* ═══ BODY TEXT — single unified size ═══════════════ */
+/* Used for BOTH paragraph text AND transfer descriptions */
+.sec-body,
+.ti-desc {
+  font-size:var(--fs-text);   /* 13pt — same everywhere */
+  color:var(--inkm);
+  line-height:1.65;
+}
+.sec-body strong { color:var(--ink);font-weight:500; }
+
+/* Transfer item heading — same size, just bolder */
+.ti-head {
+  font-size:var(--fs-text);   /* 13pt — same as desc */
+  font-weight:600;
+  color:var(--ink);
+  display:block;
+  line-height:1.3;
+  margin-bottom:1mm;
+}
+
+/* ═══ TWO-COLUMN ════════════════════════════════════ */
+.two-col {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6mm;
+  margin-bottom:7mm;
+}
+
+/* ═══ STATUS PILLS ══════════════════════════════════ */
+.pills {
+  display:flex;flex-wrap:wrap;gap:2.5mm;margin-top:2mm;
+}
+.pill {
+  background:var(--accbg);
+  border:1px solid var(--acc2);
+  border-radius:1.5mm;
+  padding:2mm 3.5mm;
+  font-family:'DM Mono',monospace;
+  font-size:var(--fs-pill);
+  color:var(--acc);line-height:1.4;
+}
+.pill.roadmap {
+  background:#fff9ee;border-color:#e0b86a;color:#7a5700;
+}
+.pill.stack {
+  background:#f0f0ee;border-color:#bbb;color:#444;
+}
+
+/* ═══ TRANSFER GRID ═════════════════════════════════ */
+.tgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5mm 7mm;
+  margin-top:2mm;
+}
+.ti {
+  display:flex;gap:3mm;align-items:flex-start;
+}
+.ti-ico {
+  font-size:16pt;flex-shrink:0;
+  line-height:1.2;margin-top:1px;
+}
+
+/* ═══ DIVIDER ═══════════════════════════════════════ */
+hr { display:none; }
+.divider { height:2px;background:var(--rule);margin:6mm 0; }
+
+/* ═══ FOOTER ════════════════════════════════════════ */
+.footer {
+  padding:3.5mm 13mm 3.5mm 14mm;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.footer span {
+  font-family:'DM Mono',monospace;font-size:7.5pt;
+  color:var(--inkl);letter-spacing:.1em;
+}
+
+@media print {
+  body{background:white;padding:0;}
+  .page{box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TABS PLACEHOLDER -->
+  <div class="tabs-placeholder">
+    <div class="tab-ph tab-domain">
+      <span class="tab-key">Domaine</span>
+      <span class="tab-val">IHM / Accessibilité</span>
+    </div>
+    <div class="tab-ph tab-maturity">
+      <span class="tab-key">Maturité</span>
+      <span class="tab-val">🟢 Démo en ligne</span>
+    </div>
+    <div class="tab-ph tab-audience">
+      <span class="tab-key">Audience</span>
+      <span class="tab-val">B2C</span>
+    </div>
+    <div class="tab-ph tab-wow">
+      <span class="tab-key">Nouveauté</span>
+      <span class="tab-val">⭐⭐⭐</span>
+    </div>
+  </div>
+
+  <!-- QR PLACEHOLDER -->
+  <div class="qr-placeholder"><span>QR<br>Code</span></div>
+
+  <div class="content">
+
+    <!-- HEADER -->
+    <div class="header-row">
+      <div class="header-left">
+        <div class="counter"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="proj-cat">IHM &amp; Recherche en Accessibilité · B2C · 03 sur 11</div>
+        <div class="proj-name"><a href="https://github.com/yourusername/mapcopy-web" target="_blank" style="color:inherit;text-decoration:none;border-bottom:none;">MapCopy</a></div>
+        <div class="tagline">
+          Une disposition de 12 touches où chaque caractère est une paire de deux touches et dont <strong>l'assignation optimale est mesurée à partir de votre propre temps de réaction</strong> — la technologie qui s'adapte à la personne, et non l'inverse.
+        </div>
+      </div>
+      <div class="circle-placeholder">
+        <img src="signature.png" alt="Investor signature">
+      </div>
+    </div>
+
+    <!-- PROBLEM + ENGINE -->
+    <div class="two-col">
+      <div>
+        <div class="sec-label">Le Problème</div>
+        <p class="sec-body">
+          Toute disposition de clavier — Qwerty, Dvorak, Colemak — optimise pour une personne moyenne statistique. Cette personne n'existe pas. La disposition est universelle ; les mains qui l'utilisent ne le sont pas. Le résultat est une friction qui s'accumule sur toute une vie de frappe.
+        </p>
+      </div>
+      <div>
+        <div class="sec-label">Le Moteur</div>
+        <p class="sec-body">
+          12 touches physiques. Chaque caractère saisi en deux touches : la première sélectionne une liste, la seconde y sélectionne un caractère. <strong>144 caractères uniques</strong> depuis 144 paires. Une phase de mesure enregistre la latence par paire ; un optimiseur assigne les caractères fréquents aux paires rapides. La disposition est personnelle, révisable et exportable.
+        </p>
+      </div>
+    </div>
+
+    <!-- STATUS + STACK -->
+    <div>
+      <div class="sec-label">Statut · Stack · Feuille de Route</div>
+      <div class="pills">
+        <div class="pill">🟢 Entraîneur de frappe en ligne — GitHub Pages</div>
+        <div class="pill">HTML · Vanilla JS · Moteur de disposition Python</div>
+        <div class="pill">Matrice de latence · Analyse de fréquence du corpus</div>
+        <div class="pill roadmap">🗺 Feuille de route → Phase A : mesure de latence · Phase B : optimisation par corpus · Pilote de remappage au niveau OS</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CROSS-DOMAIN -->
+    <div>
+      <div class="sec-label">Même Moteur — Autres Secteurs</div>
+      <div class="tgrid">
+        <div class="ti">
+          <span class="ti-ico">♿</span>
+          <div>
+            <span class="ti-head">Technologie d'assistance (CAA)</span>
+            <span class="ti-desc">Dispositions d'accès par contacteur personnalisées pour les utilisateurs à mobilité réduite — optimisées selon leur amplitude physique réelle, pas une moyenne clinique</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🎮</span>
+          <div>
+            <span class="ti-head">Optimisation de manettes de jeu</span>
+            <span class="ti-desc">Optimiser la configuration des actions sur les manettes par joueur en fonction de la latence mesurée pour chaque paire de boutons</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🏭</span>
+          <div>
+            <span class="ti-head">Panneaux de commande industriels</span>
+            <span class="ti-desc">Optimiser la disposition physique des boutons pour des flux de travail spécifiques et des profils d'opérateurs — mesuré, pas supposé</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🧓</span>
+          <div>
+            <span class="ti-head">Utilisateurs seniors &amp; à mobilité réduite</span>
+            <span class="ti-desc">Interfaces de saisie simplifiées et personnalisées pour les utilisateurs que les claviers standard dépassent physiquement ou cognitivement</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🌐</span>
+          <div>
+            <span class="ti-head">Informatique embarquée &amp; IoT</span>
+            <span class="ti-desc">Saisie efficace pour les appareils à très peu de touches physiques — terminaux, interfaces embarquées, appareils terrain</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">⌨️</span>
+          <div>
+            <span class="ti-head">Optimisation du clavier Braille</span>
+            <span class="ti-desc">Appliquer la même boucle de mesure aux appareils Braille à 6 touches — personnaliser l'assignation accord-vers-caractère par utilisateur</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="divider" style="margin:0 13mm 0 14mm;"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>Exposition Tech · Avril 2026</span>
+    <span>MapCopy · 03 / 11</span>
+  </div>
+
+</div>
+</body>
+</html>

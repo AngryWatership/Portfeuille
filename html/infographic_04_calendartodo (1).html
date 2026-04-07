@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CalendarToDo — Project Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --acc:   #2a6b63;
+  --acc2:  #5aa89e;
+  --accbg: #ecf5f4;
+  --ink:   #111;
+  --inkm:  #2e2e2e;
+  --inkl:  #777;
+  --rule:  #ccc;
+  --bg:    #f8f8f6;
+  --ph:    #e0e0de;
+
+  --fs-label: 10pt;      /* section labels: The Problem, The Engine… */
+  --fs-text:  13pt;      /* ALL paragraph / description text         */
+  --fs-pill:  12pt;      /* status pills                             */
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#999;
+  background-image: url('../flow.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  justify-content:center;
+  padding:28px;
+  font-family:'DM Sans', sans-serif;
+}
+
+/* ═══ A4 ════════════════════════════════════════════ */
+.page {
+  width:210mm;
+  min-height:297mm;
+  background:var(--bg);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 8px 48px rgba(0,0,0,.25);
+}
+.page::before {
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:25px;
+  background:var(--acc);
+  z-index:2;
+}
+
+/* ═══ TABS ══════════════════════════════════════════ */
+.tabs-placeholder {
+  width:100%;
+  height:13mm;
+  background:#e8e8e6;
+  display:flex;
+  align-items:stretch;
+  gap:3mm;
+  padding:0 14mm;
+  flex-shrink:0;
+  border-bottom:2px solid #bbb;
+  padding-bottom:1.5mm;
+}
+.tab-ph {
+  width:32mm;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1mm;
+  border-radius:0 0 1.5mm 1.5mm;
+}
+.tab-domain   { background:#45746c; }
+.tab-maturity { background:#d7bc6f; }
+.tab-audience { background:#6e4177; }
+.tab-wow      { background:#b38256; }
+.tab-ph .tab-key {
+  font-family:'DM Mono',monospace;
+  font-size:6pt;color:rgba(255,255,255,.72);
+  letter-spacing:.18em;text-transform:uppercase;
+  font-weight:300;
+  text-align:center;
+}
+.tab-ph .tab-val {
+  font-family:'DM Mono',monospace;
+  font-size:7.5pt;color:#fff;
+  letter-spacing:.08em;text-transform:uppercase;
+  font-weight:500;
+  text-align:center;
+}
+
+
+/* ═══ QR PLACEHOLDER ════════════════════════════════ */
+.qr-placeholder {
+  position:absolute;
+  top:1.5mm;
+  right:1.5mm;
+  width:22.5mm;
+  height:22.5mm;
+  background:var(--ph);
+  border:1.5px dashed #bbb;
+  border-radius:1.5mm;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1mm;
+  z-index:20;
+}
+.qr-placeholder span {
+  font-family:'DM Mono',monospace;
+  font-size:5pt;
+  color:#aaa;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-align:center;
+  line-height:1.6;
+}
+
+/* ═══ CONTENT ═══════════════════════════════════════ */
+.content {
+  flex:1;
+  padding:7mm 13mm 9mm 14mm;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+/* ═══ HEADER ════════════════════════════════════════ */
+.header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:5mm;
+  margin-bottom:7mm;
+  padding-bottom:6mm;
+  border-bottom:2px solid var(--ink);
+}
+.header-left { flex:1; }
+
+.counter {
+  display:flex;align-items:center;gap:3px;
+  margin-bottom:3mm;
+}
+.dot {
+  width:8px;height:8px;
+  border-radius:50%;background:var(--acc);flex-shrink:0;
+}
+
+.proj-cat {
+  font-family:'DM Mono',monospace;
+  font-size:12pt;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:2.5mm;
+}
+.proj-name {
+  font-family:'Playfair Display',serif;
+  font-size:52pt;font-weight:900;
+  color:var(--ink);line-height:.92;
+  margin-bottom:5mm;letter-spacing:-.02em;
+}
+.tagline {
+  font-size:14pt;font-weight:400;
+  color:var(--inkm);line-height:1.55;
+  max-width:115mm;
+}
+.tagline strong { color:var(--ink);font-weight:500; }
+
+/* ═══ CIRCLE PLACEHOLDER ════════════════════════════ */
+.circle-placeholder {
+  width:65mm;flex-shrink:0;
+}
+.circle-placeholder img {
+  width:100%;height:auto;display:block;
+}
+
+/* ═══ SECTION LABEL ═════════════════════════════════ */
+.sec-label {
+  font-family:'DM Mono',monospace;
+  font-size:16pt;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--acc);
+  margin-bottom:3.5mm;
+  display:flex;
+  align-items:center;
+  gap:3mm;
+}
+.sec-label::after {
+  content:'';
+  flex:1;height:2px;
+  background:var(--rule);
+}
+
+/* ═══ BODY TEXT — single unified size ═══════════════ */
+/* Used for BOTH paragraph text AND transfer descriptions */
+.sec-body,
+.ti-desc {
+  font-size:var(--fs-text);   /* 13pt — same everywhere */
+  color:var(--inkm);
+  line-height:1.65;
+}
+.sec-body strong { color:var(--ink);font-weight:500; }
+
+/* Transfer item heading — same size, just bolder */
+.ti-head {
+  font-size:var(--fs-text);   /* 13pt — same as desc */
+  font-weight:600;
+  color:var(--ink);
+  display:block;
+  line-height:1.3;
+  margin-bottom:1mm;
+}
+
+/* ═══ TWO-COLUMN ════════════════════════════════════ */
+.two-col {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6mm;
+  margin-bottom:7mm;
+}
+
+/* ═══ STATUS PILLS ══════════════════════════════════ */
+.pills {
+  display:flex;flex-wrap:wrap;gap:2.5mm;margin-top:2mm;
+}
+.pill {
+  background:var(--accbg);
+  border:1px solid var(--acc2);
+  border-radius:1.5mm;
+  padding:2mm 3.5mm;
+  font-family:'DM Mono',monospace;
+  font-size:var(--fs-pill);
+  color:var(--acc);line-height:1.4;
+}
+.pill.roadmap {
+  background:#fff9ee;border-color:#e0b86a;color:#7a5700;
+}
+.pill.stack {
+  background:#f0f0ee;border-color:#bbb;color:#444;
+}
+
+/* ═══ TRANSFER GRID ═════════════════════════════════ */
+.tgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5mm 7mm;
+  margin-top:2mm;
+}
+.ti {
+  display:flex;gap:3mm;align-items:flex-start;
+}
+.ti-ico {
+  font-size:16pt;flex-shrink:0;
+  line-height:1.2;margin-top:1px;
+}
+
+/* ═══ DIVIDER ═══════════════════════════════════════ */
+hr { display:none; }
+.divider { height:2px;background:var(--rule);margin:6mm 0; }
+
+/* ═══ FOOTER ════════════════════════════════════════ */
+.footer {
+  padding:3.5mm 13mm 3.5mm 14mm;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.footer span {
+  font-family:'DM Mono',monospace;font-size:7.5pt;
+  color:var(--inkl);letter-spacing:.1em;
+}
+
+@media print {
+  body{background:white;padding:0;}
+  .page{box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TABS PLACEHOLDER -->
+  <div class="tabs-placeholder">
+    <div class="tab-ph tab-domain">
+      <span class="tab-key">Domain</span>
+      <span class="tab-val">Productivity</span>
+    </div>
+    <div class="tab-ph tab-maturity">
+      <span class="tab-key">Maturity</span>
+      <span class="tab-val">🟡 Active Dev</span>
+    </div>
+    <div class="tab-ph tab-audience">
+      <span class="tab-key">Audience</span>
+      <span class="tab-val">B2C</span>
+    </div>
+    <div class="tab-ph tab-wow">
+      <span class="tab-key">Novelty</span>
+      <span class="tab-val">⭐⭐⭐⭐</span>
+    </div>
+  </div>
+
+  <!-- QR PLACEHOLDER -->
+  <div class="qr-placeholder"><span>QR<br>Code</span></div>
+
+  <div class="content">
+
+    <!-- HEADER -->
+    <div class="header-row">
+      <div class="header-left">
+        <div class="counter"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="proj-cat">Productivity &amp; Personal Tools · B2C · 04 of 11</div>
+        <div class="proj-name"><a href="#" target="_blank" style="color:inherit;text-decoration:none;border-bottom:none;">Calendar ToDo</a></div>
+        <div class="tagline">
+          Goals as a <strong>live dependency graph</strong> — complete one node and the next unlocks, annul one and everything downstream cascades automatically. Every task has a bar on a zoomable timeline with a live "now" indicator so deadlines feel real, not abstract.
+        </div>
+      </div>
+      <div class="circle-placeholder">
+        <img src="signature.png" alt="Investor signature">
+      </div>
+    </div>
+
+    <!-- PROBLEM + ENGINE -->
+    <div class="two-col">
+      <div>
+        <div class="sec-label">The Problem</div>
+        <p class="sec-body">
+          To-do lists have no memory of why a task exists. Project management tools are too rigid for personal goals. Neither model the logical dependencies between objectives — so when one thing changes, nothing else adjusts.
+        </p>
+      </div>
+      <div>
+        <div class="sec-label">The Engine</div>
+        <p class="sec-body">
+          <strong>8 cascade rules</strong> govern state propagation: Completion, XOR Suspension, Playhead Pin, Goal Termination, Parent Expansion, Upward Fatal Cascade, Soft Completion, Orphan Rescue. 4 node types, 4 link types. XOR groups preserve mutually exclusive paths as strategic memory. 32 unit tests. Vue 3 + Pinia.
+        </p>
+      </div>
+    </div>
+
+    <!-- STATUS + STACK -->
+    <div>
+      <div class="sec-label">Status · Stack · Roadmap</div>
+      <div class="pills">
+        <div class="pill">🟡 Active development — not yet deployed</div>
+        <div class="pill">Vue 3 · Pinia · TypeScript 5.8 · Vite 8</div>
+        <div class="pill">d3-scale · d3-time · localforage (IndexedDB)</div>
+        <div class="pill stack">Vitest 4 · 32 unit tests · lucide-vue-next</div>
+        <div class="pill roadmap">🗺 Roadmap → Public deployment · Chronobiology layer (cognitive peak scheduling)</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CROSS-DOMAIN -->
+    <div>
+      <div class="sec-label">Same Engine — Other Industries</div>
+      <div class="tgrid">
+        <div class="ti">
+          <span class="ti-ico">🏗️</span>
+          <div>
+            <span class="ti-head">Project management</span>
+            <span class="ti-desc">Replace Gantt charts with a live dependency graph that auto-cascades when a task slips or is annulled</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🎓</span>
+          <div>
+            <span class="ti-head">Curriculum design</span>
+            <span class="ti-desc">Model learning prerequisites as a dependency tree — a failed module suspends downstream courses automatically</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🏥</span>
+          <div>
+            <span class="ti-head">Treatment planning</span>
+            <span class="ti-desc">Map a patient's care pathway — completed steps unlock next interventions, cancelled ones trigger fallback protocols</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">⚖️</span>
+          <div>
+            <span class="ti-head">Legal case management</span>
+            <span class="ti-desc">Track filing deadlines and procedural dependencies — missing one triggers cascading alerts up the chain</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🏭</span>
+          <div>
+            <span class="ti-head">Manufacturing operations</span>
+            <span class="ti-desc">Model a production sequence as a dependency graph — a delayed shipment auto-suspends all downstream assembly steps</span>
+          </div>
+        </div>
+        <div class="ti">
+          <span class="ti-ico">🚀</span>
+          <div>
+            <span class="ti-head">Product roadmap</span>
+            <span class="ti-desc">Model feature dependencies — annulling a feature auto-suspends everything that depended on it, surfacing hidden assumptions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="divider" style="margin:0 13mm 0 14mm;"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>Tech Exhibition · April 2026</span>
+    <span>CalendarToDo · 04 / 11</span>
+  </div>
+
+</div>
+</body>
+</html>
