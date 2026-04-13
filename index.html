@@ -7,19 +7,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  background:#f5f5f3;
   font-family:'DM Sans', sans-serif;
   min-height:100vh;
-  padding:40px 24px;
+  padding:40px 24px 60px;
   display:flex;
   flex-direction:column;
   align-items:center;
+  gap:32px;
+  position:relative;
+  background:#f5f5f3;
 }
-header {
-  text-align:center;
-  margin-bottom:40px;
+
+/* Background image inside the page */
+body::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:url('flow.png');
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  background-position:center;
+  opacity:1;
+  z-index:0;
+  pointer-events:none;
 }
+
+/* All content above the background */
+header, .card, footer { position:relative; z-index:1; }
+
+/* ── HEADER ── */
+header { text-align:center; }
 .title {
   font-family:'Playfair Display', serif;
   font-size:36pt;
@@ -36,221 +55,314 @@ header {
   letter-spacing:.18em;
   text-transform:uppercase;
 }
-.table-wrap {
+
+/* ── SHARED CARD ── */
+.card {
   width:100%;
   max-width:860px;
-  background:#fff;
+  background:rgba(255,255,255,0.92);
   border-radius:4px;
-  box-shadow:0 2px 20px rgba(0,0,0,.08);
+  box-shadow:0 2px 20px rgba(0,0,0,.10);
   overflow:hidden;
 }
-table {
-  width:100%;
-  border-collapse:collapse;
-}
-thead tr {
+
+.card-header {
   background:#111;
-}
-thead th {
+  padding:12px 16px;
   font-family:'DM Mono', monospace;
   font-size:7pt;
   font-weight:500;
   letter-spacing:.18em;
   text-transform:uppercase;
   color:#fff;
-  padding:12px 16px;
-  text-align:left;
 }
-tbody tr {
-  border-bottom:1px solid #eee;
-  transition:background .12s;
-}
+
+/* ── PROJECTS TABLE ── */
+table { width:100%; border-collapse:collapse; }
+tbody tr { border-bottom:1px solid #eee; transition:background .12s; }
 tbody tr:last-child { border-bottom:none; }
 tbody tr:hover { background:#f9f9f7; }
 td { padding:13px 16px; vertical-align:middle; }
+
 .num {
   font-family:'DM Mono', monospace;
-  font-size:9pt;
-  font-weight:500;
-  color:#aaa;
-  width:40px;
+  font-size:9pt; font-weight:500;
+  color:#aaa; width:40px;
 }
 .name {
   font-family:'Playfair Display', serif;
-  font-size:13pt;
-  font-weight:700;
-  color:#111;
-  width:160px;
+  font-size:13pt; font-weight:700;
+  color:#111; width:160px;
 }
-.domain {
-  font-size:8.5pt;
-  color:#555;
-}
+.domain { font-size:8.5pt; color:#555; }
 .mat {
   font-family:'DM Mono', monospace;
-  font-size:8pt;
-  color:#666;
-  width:130px;
+  font-size:8pt; color:#666; width:130px;
 }
-.links {
-  width:80px;
-  white-space:nowrap;
-}
+.links { width:80px; white-space:nowrap; }
 .links a {
   display:inline-block;
   font-family:'DM Mono', monospace;
-  font-size:8pt;
-  font-weight:500;
-  letter-spacing:.1em;
-  color:#fff;
-  background:#111;
-  padding:4px 10px;
-  border-radius:2px;
-  text-decoration:none;
-  margin-right:4px;
-  transition:background .12s;
+  font-size:8pt; font-weight:500;
+  letter-spacing:.1em; color:#fff;
+  background:#111; padding:4px 10px;
+  border-radius:2px; text-decoration:none;
+  margin-right:4px; transition:background .12s;
 }
 .links a:hover { background:#444; }
-footer {
-  margin-top:32px;
+
+/* ── CV SECTION ── */
+.cv-body {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+
+.cv-pane {
+  padding:0;
+  display:flex;
+  flex-direction:column;
+}
+
+.cv-pane:first-child {
+  border-right:1px solid #eee;
+}
+
+.cv-pane-header {
+  padding:10px 16px;
   font-family:'DM Mono', monospace;
-  font-size:7pt;
-  color:#bbb;
-  letter-spacing:.1em;
+  font-size:6.5pt;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#310101;
+  border-bottom:1px solid #eee;
+  background:#fafaf8;
+}
+
+.cv-embed {
+  width:100%;
+  height:480px;
+  border:none;
+  display:block;
+  background:#f0f0ee;
+}
+
+.cv-fallback {
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  height:100%;
   text-align:center;
+}
+
+.cv-fallback p {
+  font-family:'DM Mono', monospace;
+  font-size:7.5pt;
+  color:#aaa;
+  letter-spacing:.08em;
+}
+
+.cv-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'DM Mono', monospace;
+  font-size:8.5pt; font-weight:500;
+  letter-spacing:.08em; color:#fff;
+  background:#111; padding:8px 16px;
+  border-radius:2px; text-decoration:none;
+  transition:background .12s;
+}
+.cv-btn:hover { background:#444; }
+.cv-btn svg { width:13px; height:13px; fill:currentColor; flex-shrink:0; }
+
+/* ── CONTACT SECTION ── */
+.contact-body {
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.contact-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.contact-key {
+  font-family:'DM Mono', monospace;
+  font-size:7pt; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:#aaa; width:72px; flex-shrink:0;
+}
+.contact-val {
+  font-family:'DM Mono', monospace;
+  font-size:9pt; color:#111;
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:border-color .12s, color .12s;
+}
+.contact-val:hover { color:#444; border-bottom-color:#ccc; }
+
+/* ── FOOTER ── */
+footer {
+  font-family:'DM Mono', monospace;
+  font-size:7pt; color:#bbb;
+  letter-spacing:.1em; text-align:center;
 }
 </style>
 </head>
 <body>
+
 <header>
   <div class="title">Portfolio</div>
   <div class="subtitle">Tech Exhibition · April 2026 · 11 Projects</div>
 </header>
-<div class="table-wrap">
+
+<!-- PROJECTS -->
+<div class="card">
+  <div class="card-header">Projects · Projets</div>
   <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Project</th>
-        <th>Domain</th>
-        <th>Maturity</th>
-        <th>View</th>
-      </tr>
-    </thead>
     <tbody>
       <tr>
         <td class="num">01</td>
         <td class="name">gas-sim-pro</td>
         <td class="domain">🏭 Industrial Safety · B2B</td>
         <td class="mat">🟢 Live</td>
-        <td class="links">
-          <a href="1/">EN</a>
-          <a href="1-fr/">FR</a>
-        </td>
+        <td class="links"><a href="1/">EN</a><a href="1-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">02</td>
         <td class="name">Knitty</td>
         <td class="domain">🎨 Lifestyle & Craft · B2C</td>
         <td class="mat">🟢 Play Console</td>
-        <td class="links">
-          <a href="2/">EN</a>
-          <a href="2-fr/">FR</a>
-        </td>
+        <td class="links"><a href="2/">EN</a><a href="2-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">03</td>
         <td class="name">MapCopy</td>
         <td class="domain">⌨️ HCI & Accessibility · B2C</td>
         <td class="mat">🟢 Live Demo</td>
-        <td class="links">
-          <a href="3/">EN</a>
-          <a href="3-fr/">FR</a>
-        </td>
+        <td class="links"><a href="3/">EN</a><a href="3-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">04</td>
         <td class="name">CalendarToDo</td>
         <td class="domain">🧠 Productivity · B2C</td>
         <td class="mat">🟡 Active Dev</td>
-        <td class="links">
-          <a href="4/">EN</a>
-          <a href="4-fr/">FR</a>
-        </td>
+        <td class="links"><a href="4/">EN</a><a href="4-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">05</td>
         <td class="name">GeoSplat</td>
         <td class="domain">🏭 B2B Industrial · B2B</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="5/">EN</a>
-          <a href="5-fr/">FR</a>
-        </td>
+        <td class="links"><a href="5/">EN</a><a href="5-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">06</td>
         <td class="name">GlassFactory</td>
         <td class="domain">🏭 B2B Industrial · B2B</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="6/">EN</a>
-          <a href="6-fr/">FR</a>
-        </td>
+        <td class="links"><a href="6/">EN</a><a href="6-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">07</td>
         <td class="name">FitOutFit</td>
         <td class="domain">🎨 Lifestyle · B2C</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="7/">EN</a>
-          <a href="7-fr/">FR</a>
-        </td>
+        <td class="links"><a href="7/">EN</a><a href="7-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">08</td>
         <td class="name">TheRandomApp</td>
         <td class="domain">🧠 Productivity & Social · B2C</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="8/">EN</a>
-          <a href="8-fr/">FR</a>
-        </td>
+        <td class="links"><a href="8/">EN</a><a href="8-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">09</td>
         <td class="name">CursiveProof</td>
         <td class="domain">🎓 Education & Research · B2B</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="9/">EN</a>
-          <a href="9-fr/">FR</a>
-        </td>
+        <td class="links"><a href="9/">EN</a><a href="9-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">10</td>
         <td class="name">KnowledgeTree</td>
         <td class="domain">🎓 Education & Research · B2B</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="10/">EN</a>
-          <a href="10-fr/">FR</a>
-        </td>
+        <td class="links"><a href="10/">EN</a><a href="10-fr/">FR</a></td>
       </tr>
       <tr>
         <td class="num">11</td>
         <td class="name">Voyage.ma</td>
         <td class="domain">🗺️ Transport & National · B2C + B2B</td>
         <td class="mat">🟠 Concept</td>
-        <td class="links">
-          <a href="11/">EN</a>
-          <a href="11-fr/">FR</a>
-        </td>
+        <td class="links"><a href="11/">EN</a><a href="11-fr/">FR</a></td>
       </tr>
     </tbody>
   </table>
 </div>
-<footer>yourusername.github.io/portfeuille</footer>
+
+<!-- CV / RESUME -->
+<div class="card">
+    <div class="cv-body">
+
+    <!-- English -->
+    <div class="cv-pane">
+      <div class="cv-pane-header">English — Resume</div>
+      <iframe class="cv-embed" src="cv_new_english.pdf" title="Resume English"></iframe>
+      <div style="padding:10px 16px;border-top:1px solid #eee;background:#fafaf8;">
+        <a class="cv-btn" href="cv_new_english.pdf" target="_blank">
+          <svg viewBox="0 0 16 16"><path d="M8 1a1 1 0 0 1 1 1v6.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 1 1 1.414-1.414L7 8.586V2a1 1 0 0 1 1-1zM2 13a1 1 0 1 1 0 2h12a1 1 0 1 1 0-2H2z"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- French -->
+    <div class="cv-pane">
+      <div class="cv-pane-header">Français — CV</div>
+      <iframe class="cv-embed" src="cv_new_french.pdf" title="CV Français"></iframe>
+      <div style="padding:10px 16px;border-top:1px solid #eee;background:#fafaf8;">
+        <a class="cv-btn" href="cv_new_french.pdf" target="_blank">
+          <svg viewBox="0 0 16 16"><path d="M8 1a1 1 0 0 1 1 1v6.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 1 1 1.414-1.414L7 8.586V2a1 1 0 0 1 1-1zM2 13a1 1 0 1 1 0 2h12a1 1 0 1 1 0-2H2z"/></svg>
+          Télécharger PDF
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="card">
+  <div class="card-header">Contact</div>
+  <div class="contact-body">
+    <div class="contact-row">
+      <span class="contact-key">Email</span>
+      <a class="contact-val" href="mailto:ilyassiraoui05@gmail.com">ilyassiraoui05@gmail.com</a>
+      <a class="contact-val" href="mailto:ilyass_iraoui@um5.ac.ma">ilyass_iraoui@um5.ac.ma</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">LinkedIn</span>
+      <a class="contact-val" href="https://www.linkedin.com/in/ilyass-iraoui/" target="_blank">linkedin.com/in/ilyass-iraoui/</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">GitHub</span>
+      <a class="contact-val" href="https://github.com/AngryWatership" target="_blank">github.com/AngryWatership</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">Number</span>
+      <a class="contact-val" target="_blank">+212 6 46 55 79 86</a>
+    </div>
+  </div>
+</div>
+
+<footer>angrywatership.github.io/Portfeuille</footer>
+
 </body>
 </html>

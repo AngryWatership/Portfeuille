@@ -264,9 +264,30 @@ hr { display:none; }
   color:var(--inkl);letter-spacing:.1em;
 }
 
+.back-btn {
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  font-family:'DM Mono', monospace;
+  font-size:8pt;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fff;
+  background:#111;
+  padding:7px 14px;
+  border-radius:3px;
+  text-decoration:none;
+  z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  transition:background .15s;
+}
+.back-btn:hover { background:#444; }
+
 @media print {
   body{background:white;padding:0;}
   .page{box-shadow:none;}
+  .back-btn{display:none;}
 }
 </style>
 </head>
@@ -303,7 +324,7 @@ hr { display:none; }
       <div class="header-left">
         <div class="counter"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="proj-cat">hmi &amp; Accessibility Research · B2C · 03 of 11</div>
-        <div class="proj-name"><a href="https://github.com/yourusername/mapcopy-web" target="_blank" style="color:inherit;text-decoration:none;border-bottom:none;">MapCopy</a></div>
+        <div class="proj-name"><a href="https://github.com/AngryWatership/mapcopy-web" target="_blank" style="color:inherit;text-decoration:none;border-bottom:none;">MapCopy</a></div>
         <div class="tagline">
           A 12-key chording layout where every character is a two-key pair and the <strong>optimal assignment is measured from your own reaction time</strong> — technology shaped to the person, not the other way around.
         </div>
@@ -394,6 +415,9 @@ hr { display:none; }
   </div><!-- /content -->
 
   <div class="divider" style="margin:0 13mm 0 14mm;"></div>
+
+<!-- BACK BUTTON -->
+  <a class="back-btn" href="../">← Portfolio</a>
 
   <!-- FOOTER -->
   <div class="footer">
